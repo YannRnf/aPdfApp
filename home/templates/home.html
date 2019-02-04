@@ -1,7 +1,9 @@
 {% extends "common_base.html" %}
 
+{% block menu %}
+<a class="nav-link" href="{% url 'logout' %}">Logout</a>
+{% endblock %}
+
 {% block content %}
     <h1>Welcome</h1>
-
-    <a href="{% url 'logout' %}">Logout</a>
 {% endblock %}
