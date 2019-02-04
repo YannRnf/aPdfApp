@@ -1,0 +1,7 @@
+{% extends "common_base.html" %}
+
+{% block content %}
+    <a href="{% url 'social:begin' 'google-oauth2' %}">
+        <button type="button" class="btn btn-primary">Connect with Google</button>
+    </a>
+{% endblock %}
