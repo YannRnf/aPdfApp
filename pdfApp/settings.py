@@ -123,3 +123,10 @@ AWS_LOCATION = ''
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
 DEFAULT_FILE_STORAGE = 'pdfApp.storage_backends.MediaStorage'
+
+CONTENT_TYPES = ['pdf']
+# 2.0MB - 2000000
+# 2.5MB - 2621440
+# 5MB - 5242880
+# 10MB - 10485760
+MAX_UPLOAD_SIZE = "2000000"

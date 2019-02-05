@@ -9,6 +9,7 @@ from home.models import Document
 @login_required(login_url='/')
 def index(request):
     connectedUser = request.user
+    error = None
 
     if request.method == 'POST':
         # TODO : Add FILE VERIFICATIONS
@@ -18,6 +19,8 @@ def index(request):
             obj = form.save(commit=False)
             obj.upload_user = connectedUser
             obj.save()
+        else :
+            error = form.errors
 
     form = DocumentForm()
     documents = Document.objects.filter(upload_user=connectedUser)
@@ -25,5 +28,6 @@ def index(request):
     return render(request, 'home.html', context={
         'form': form,
         'documents' : documents,
-        'user' : connectedUser
+        'user' : connectedUser,
+        'error': error
     })

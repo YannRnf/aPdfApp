@@ -10,14 +10,19 @@
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
+        {% if error %}
+            <p>{{ error }}</p>
+        {% endif%}
         <button type="submit">Upload</button>
     </form>
     <hr>
     {% if documents %}
         <p>My Files ({{ documents|length }})</p>
-        {% for document in documents %}
-            <p>{{ document.upload.name }} - {{ document.uploaded_at }} - {{ document.upload.size|filesizeformat }}</p>
-        {% endfor %}
+        <div class="fileListContainer">
+            {% for document in documents %}
+                <p>{{ document.upload.name }} - {{ document.uploaded_at }} - {{ document.upload.size|filesizeformat }}</p>
+            {% endfor %}
+        </div>
     {% else %}
         <p>No Files yet</p>
     {% endif %}

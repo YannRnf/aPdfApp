@@ -1,10 +1,16 @@
 from django.db import models
+from django.conf import settings
 from django.contrib.auth.models import User
+from django.core.validators import FileExtensionValidator
 
 # Create your models here.
 class Document(models.Model):
     uploaded_at = models.DateTimeField(auto_now_add=True)
-    upload = models.FileField(upload_to='')
+    upload = models.FileField(upload_to='',
+                            validators=[FileExtensionValidator(allowed_extensions=settings.CONTENT_TYPES)])
+    comment = models.TextField(max_length=500,
+                               help_text='Enter a comment.',
+                               null=True)
     upload_user = models.ForeignKey(User,
                                on_delete=models.SET_NULL,
                                null=True)
