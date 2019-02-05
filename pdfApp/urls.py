@@ -9,4 +9,4 @@ urlpatterns = [
     path('home/', include('home.urls')),
     path('auth/', include('authentication.urls')),
     path('', defaultViews.index),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+]
