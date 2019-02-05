@@ -16,8 +16,11 @@ mysql-connector-python==8.0.14
 oauthlib==3.0.1
 protobuf==3.6.1
 psycopg2==2.7.7
+psycopg2-binary==2.7.7
 PyJWT==1.7.1
 pylint==2.2.2
+pylint-django==2.0.5
+pylint-plugin-utils==0.4
 python-dateutil==2.7.5
 python3-openid==3.1.0
 pytz==2018.9

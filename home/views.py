@@ -12,7 +12,7 @@ def index(request):
     error = None
 
     if request.method == 'POST':
-        form = DocumentForm(None,request.FILES)
+        form = DocumentForm(request.POST,request.FILES)
         
         if form.is_valid():
             obj = form.save(commit=False)

@@ -9,7 +9,14 @@
     <h1>Welcome {{ user.first_name }}</h1>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p }}
+
+        <!--{{ form.as_p }}-->
+        {% for field in form.visible_fields %}
+        <div class="form-group">
+            {{ field }}
+        </div>
+        {% endfor %}
+
         {% if error %}
             <p>{{ error }}</p>
         {% endif%}
@@ -20,7 +27,7 @@
         <p>My Files ({{ documents|length }})</p>
         <div class="fileListContainer">
             {% for document in documents %}
-                <p>{{ document.upload.name }} - {{ document.uploaded_at }} - {{ document.upload.size|filesizeformat }}</p>
+                <p>{{ document.upload.name }} - {{ document.uploaded_at }} ({{ document.upload.size|filesizeformat }})</p>
             {% endfor %}
         </div>
     {% else %}
