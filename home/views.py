@@ -12,11 +12,18 @@ def index(request):
     error = None
 
     if request.method == 'POST':
-        # TODO : Add FILE VERIFICATIONS
         form = DocumentForm(None,request.FILES)
         
         if form.is_valid():
             obj = form.save(commit=False)
+
+            x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+            if x_forwarded_for:
+                ipaddress = x_forwarded_for.split(',')[-1].strip()
+            else:
+                ipaddress = request.META.get('REMOTE_ADDR')
+            
+            obj.ip_address = ipaddress
             obj.upload_user = connectedUser
             obj.save()
         else :

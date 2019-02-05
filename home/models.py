@@ -11,6 +11,8 @@ class Document(models.Model):
     comment = models.TextField(max_length=500,
                                help_text='Enter a comment.',
                                null=True)
+    ip_address = models.TextField(max_length=15,
+                               null=True)
     upload_user = models.ForeignKey(User,
                                on_delete=models.SET_NULL,
                                null=True)
