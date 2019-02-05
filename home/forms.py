@@ -6,6 +6,19 @@ from django.template.defaultfilters import filesizeformat
 from django.utils.translation import ugettext_lazy as _
 
 class DocumentForm(ModelForm):
+    comment = forms.CharField( widget=forms.TextInput(
+                                attrs={
+                                    'class': 'form-control',
+                                    'placeholder': 'Write your comment here'
+                                }
+                                ))
+    upload = forms.FileField( widget=forms.FileInput(
+                                attrs={
+                                    'class': 'form-control-file',
+                                    'style': 'text-align:center'
+                                }
+                                ))
+
     def clean(self):
         self.check_file()
         return self.cleaned_data
@@ -18,4 +31,4 @@ class DocumentForm(ModelForm):
 
     class Meta:
         model = Document
-        fields = ('upload',)
+        fields = ('upload', 'comment')

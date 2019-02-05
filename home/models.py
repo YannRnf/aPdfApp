@@ -8,9 +8,8 @@ class Document(models.Model):
     uploaded_at = models.DateTimeField(auto_now_add=True)
     upload = models.FileField(upload_to='',
                             validators=[FileExtensionValidator(allowed_extensions=settings.CONTENT_TYPES)])
-    comment = models.TextField(max_length=500,
-                               help_text='Enter a comment.',
-                               null=True)
+    comment = models.TextField(max_length=150,
+                                null=True)
     ip_address = models.TextField(max_length=15,
                                null=True)
     upload_user = models.ForeignKey(User,
