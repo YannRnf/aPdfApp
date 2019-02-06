@@ -60,6 +60,7 @@ Create a project in your google cloud console, and generate your oauth api crede
 [Google api credentials](https://console.cloud.google.com/apis/credentials)
 
 **Warning : if you fail your first setup and can't get it working, regenerate your credentials, google must have thought they were corrupted**
+
 **Warning 2 : You must set your domain url and redirect url. No problem for a local 127.0.0.1 url, but for a production environment you must have a level 1 private domain for Google to accept you RedirectURL. **
 
 The redirect url for this project look like this in development :
@@ -107,3 +108,6 @@ export DJANGO_DEBUG=False
 export DJANGO_SECRET_KEY=$(python -c 'import random; result = "".join([random.choice("abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)") for i in range(50)]); print(result)')
 ```
 
+To check your production environment setup, you can consult the django command:
+
+`python manage.py check --deploy`
