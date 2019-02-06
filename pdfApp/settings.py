@@ -7,6 +7,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 import os
+import sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -65,20 +66,28 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'pdfApp.wsgi.application'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    },
-    'rds': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('AWS_RDS_DB_NAME', ''),
-        'USER': os.environ.get('AWS_RDS_DB_USER', ''),
-        'PASSWORD': os.environ.get('AWS_RDS_DB_PASSWORD', ''),
-        'HOST': os.environ.get('AWS_RDS_DB_HOST', ''),
-        'PORT': os.environ.get('AWS_RDS_DB_PORT', '')
+if 'test' in sys.argv:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        },
+        'rds': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.environ.get('AWS_RDS_DB_NAME', ''),
+            'USER': os.environ.get('AWS_RDS_DB_USER', ''),
+            'PASSWORD': os.environ.get('AWS_RDS_DB_PASSWORD', ''),
+            'HOST': os.environ.get('AWS_RDS_DB_HOST', ''),
+            'PORT': os.environ.get('AWS_RDS_DB_PORT', '')
+        }
+    }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
