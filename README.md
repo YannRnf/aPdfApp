@@ -2,7 +2,7 @@
 
 ## A PDF app setup
 
-You must have configured a working Python3 environement for this app.
+You must have configured a working Python3 environment for this app.
 
 `python --version` to check your current distribution.
 
@@ -13,12 +13,12 @@ Then install the dependencies
 
 ## DB config
 
-### For a test environement
+### For a test environment
 
 Don't change the settings file located in the pdfApp repository, 
 the default DB config will use a sqlite file at the root of your project
 
-### For a production environement
+### For a production environment
 
 Update the settings file located in the pdfApp repository, replace :
 ```
@@ -56,6 +56,16 @@ export AWS_RDS_DB_PORT=5432
 
 ## Google OAuth2 setup
 
+Create a project in your google cloud console, and generate your oauth api credentials here :
+[Google api credentials](https://console.cloud.google.com/apis/credentials)
+
+**Warning : if you fail your first setup and can't get it working, regenerate your credentials, google must have thought they were corrupted**
+**Warning 2 : You must set your domain url and redirect url. No problem for a local 127.0.0.1 url, but for a production environment you must have a level 1 private domain for Google to accept you RedirectURL. **
+
+The redirect url for this project look like this in development :
+`http://127.0.0.1:8000/auth/complete/google-oauth2/`
+
+Then set your env variables
 ```
 export SOCIAL_AUTH_GOOGLE_OAUTH2_KEY=<my_google_key>
 export SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET=<my_secret_secret>
@@ -73,6 +83,13 @@ export AWS_SECRET_ACCESS_KEY=<my_aws_secret_key>
 A better solution is using a AWS IAM role with the right permissions and setup your project on an EC2 (with the role attached).
 This way you'll just have to let the `None` default value in the settings file
 
+The project is configured to externalise the static assets.
+In your project directory, type in:
+
+`python manage.py collectstatic`
+
+This will push your static assets to the S3 bucket **(which MUST be configured as "Objects can be public")**
+
 If you don't wan't to use an S3 bucket for file handling it's completely possible.
 Edit the settings.py file to remove the aws links and setup a static local media repository,
 following the Django documentation section about media repository :
@@ -81,7 +98,7 @@ following the Django documentation section about media repository :
 
 ## Setting up for production
 
-For a production environement, you must set up a few more ENV variables :
+For a production environment, you must set up a few more ENV variables :
 Setting DEBUG to false.
 You also can generate a random SECRET_KEY like showed below 
 (even if you don't use this method, you MUST change the DJANGO_SECRET_KEY defined in the current settings.py code, which is public in this github repo)
