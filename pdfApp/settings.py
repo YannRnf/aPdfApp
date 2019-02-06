@@ -17,7 +17,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '1dzj6bczi^5q_r&xzu1ryr14qb(3g6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.1','']
 
 # Application definition
 INSTALLED_APPS = [
@@ -70,18 +70,15 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     },
-    'amazonRDS': {
+    'rds': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': '<name>',
-        'USER': '<username>',
-        'PASSWORD': '<password>',
-        'HOST': '<host>',
-        'PORT': '5432',
+        'NAME': os.environ.get('AWS_RDS_DB_NAME', ''),
+        'USER': os.environ.get('AWS_RDS_DB_USER', ''),
+        'PASSWORD': os.environ.get('AWS_RDS_DB_PASSWORD', ''),
+        'HOST': os.environ.get('AWS_RDS_DB_HOST', ''),
+        'PORT': os.environ.get('AWS_RDS_DB_PORT', '')
     }
 }
-
-# Password validation
-# https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -106,36 +103,45 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
+# We add the dependency auth backend which will handle the OAuth2 part for Google Authentication
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.google.GoogleOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
-
+# Specify your Google Api OAuth2 KEY and SECRET (using env variables)
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY', '')
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET', '')
-
+# Add redirect url when the auth is complete ( /auth/complete/google-oauth ... will redirect us to /home )
 LOGIN_REDIRECT_URL = '/home/'
 
-AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID', '')
-AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY', '')
-# if using an EC2 instance -> set these two to None and configure an IAM role, then give the ec2 instance the role
-
+# S3 Part for the file storage
+# if using an EC2 instance -> set these two to None and configure an IAM role, 
+# then give the ec2 instance the role with S3 Read and Put authorizations
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID', None)
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY', None)
+# Specify the bucket name
 AWS_STORAGE_BUCKET_NAME = 'apdfapp.mediabucket'
+# AWS advise to specify this to None, 
+# so the file authorizations will be the bucket authorizations
 AWS_DEFAULT_ACL = None
+# Forging the URL
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
-
+# Default OBJECT_PARAMETERS, no modification to this.
 AWS_S3_OBJECT_PARAMETERS = {
     'CacheControl': 'max-age=86400',
 }
-
+# AWS default file location
 AWS_LOCATION = ''
+# Static files S3 handling
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# Forging the URL for  the static files (css,js etc...)
 STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+# Add custom class to isolate and secure the user uploaded files (pdf)
 DEFAULT_FILE_STORAGE = 'pdfApp.storage_backends.MediaStorage'
-
+# Allowed files for backend verification
 CONTENT_TYPES = ['pdf']
+# Max upload size to limit your S3 costs
 # 2.0MB - 2000000
 # 2.5MB - 2621440
 # 5MB - 5242880
-# 10MB - 10485760
 MAX_UPLOAD_SIZE = "2000000"
