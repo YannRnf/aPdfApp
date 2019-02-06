@@ -114,30 +114,12 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get('SOCIAL_AUTH_GOOGLE_OAUTH2_SEC
 # Add redirect url when the auth is complete ( /auth/complete/google-oauth ... will redirect us to /home )
 LOGIN_REDIRECT_URL = '/home/'
 
-# S3 Part for the file storage
-# if using an EC2 instance -> set these two to None and configure an IAM role, 
-# then give the ec2 instance the role with S3 Read and Put authorizations
-AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID', None)
-AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY', None)
-# Specify the bucket name
-AWS_STORAGE_BUCKET_NAME = 'apdfapp.mediabucket'
-# AWS advise to specify this to None, 
-# so the file authorizations will be the bucket authorizations
-AWS_DEFAULT_ACL = None
-# Forging the URL
-AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
-# Default OBJECT_PARAMETERS, no modification to this.
-AWS_S3_OBJECT_PARAMETERS = {
-    'CacheControl': 'max-age=86400',
-}
-# AWS default file location
-AWS_LOCATION = ''
-# Static files S3 handling
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-# Forging the URL for  the static files (css,js etc...)
-STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
-# Add custom class to isolate and secure the user uploaded files (pdf)
-DEFAULT_FILE_STORAGE = 'pdfApp.storage_backends.MediaStorage'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+MEDIA_URL = os.path.join(BASE_DIR, 'media/')
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+STATIC_URL = os.path.join(BASE_DIR, 'static/')
+
 # Allowed files for backend verification
 CONTENT_TYPES = ['pdf']
 # Max upload size to limit your S3 costs
