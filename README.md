@@ -97,13 +97,17 @@ following the Django documentation section about media repository :
 
 [Django file storage doc](https://docs.djangoproject.com/en/2.1/topics/files/#file-storage)
 
+**A working local storage settings.py example is given in the repo (settings_local_storage.py)**
+
 ## Setting up for production
 
 For a production environment, you must set up a few more ENV variables :
+Set your DJANGO_ALLOWED_HOSTS lists corresponding to your network and server setup
 Setting DEBUG to false.
 You also can generate a random SECRET_KEY like showed below 
 (even if you don't use this method, you MUST change the DJANGO_SECRET_KEY defined in the current settings.py code, which is public in this github repo)
 ```
+export DJANGO_ALLOWED_HOSTS=['127.0.0.1','MY.IP.AD.DR']
 export DJANGO_DEBUG=False
 export DJANGO_SECRET_KEY=$(python -c 'import random; result = "".join([random.choice("abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)") for i in range(50)]); print(result)')
 ```
