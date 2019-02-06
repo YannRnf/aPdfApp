@@ -59,12 +59,12 @@ export AWS_RDS_DB_PORT=5432
 Create a project in your google cloud console, and generate your oauth api credentials here :
 [Google api credentials](https://console.cloud.google.com/apis/credentials)
 
-**Warning : if you fail your first setup and can't get it working, regenerate your credentials, google must have thought they were corrupted**
-
-**Warning 2 : You must set your domain url and redirect url. No problem for a local 127.0.0.1 url, but for a production environment you must have a level 1 private domain for Google to accept you RedirectURL. **
+**Warning : if you fail your first setup and can't get it working, regenerate your credentials, google must have thought they were corrupted.**
 
 The redirect url for this project look like this in development :
 `http://127.0.0.1:8000/auth/complete/google-oauth2/`
+
+**Warning 2 : You must set your domain url and redirect url. No problem for a local 127.0.0.1 url, but for a production environment you must have a level 1 private domain for Google to accept you RedirectURL.**
 
 Then set your env variables
 ```
