@@ -76,7 +76,8 @@ This way you'll just have to let the `None` default value in the settings file
 If you don't wan't to use an S3 bucket for file handling it's completely possible.
 Edit the settings.py file to remove the aws links and setup a static local media repository,
 following the Django documentation section about media repository :
-[Django uploaded file repository](hhttps://docs.djangoproject.com/en/2.1/topics/files/#file-storage)
+
+[Django file storage doc](https://docs.djangoproject.com/en/2.1/topics/files/#file-storage)
 
 ## Setting up for production
 
